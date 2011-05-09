@@ -44,18 +44,21 @@
 	</target>
 
 	<target name="clone-remotes">
+
 		<taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
 
+		<echo>Cloning RestFixture</echo>
+        <delete dir="${restfixture-clone-dir}" />
+        <mkdir dir="${restfixture-clone-dir}" />
+        <git localDirectory="${restfixture-clone-dir}" verbose="true">
+            <clone uri="git://github.com/smartrics/RestFixture.git" />
+        </git>
+
+        <echo>Cloning FitNesse</echo>
 		<delete dir="${fitnesse-clone-dir}" />
 		<mkdir dir="${fitnesse-clone-dir}" />
 		<git localDirectory="${fitnesse-clone-dir}" verbose="true">
 			<clone uri="git://github.com/unclebob/fitnesse.git" />
-		</git>
-
-		<delete dir="${restfixture-clone-dir}" />
-		<mkdir dir="${restfixture-clone-dir}" />
-		<git localDirectory="${restfixture-clone-dir}" verbose="true">
-			<clone uri="git://github.com/smartrics/RestFixture.git" />
 		</git>
 
 	</target>
