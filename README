@@ -1,0 +1,10 @@
+This module contains a working ant build file to verify integration
+between RestFixture and FitNesse.
+
+The build clones (via jgit-ant) FitNesse and RestFixture repositories, builds each codebase
+then runs the RestFixture CAT tests.
+
+The build should be triggered by changes to at least one of the codebases. Although, practically
+running it once a day would be more than enough given how stable both RestFixture and FitNesse are.
+
+
