@@ -1,0 +1,37 @@
+<project name="RestFixture-CI" default="test-integration">
+
+	<property name="fitnesse-clone-dir" value="build/ci/fitnesse-git-ro" />
+	<property name="restfixture-clone-dir" value="build/ci/restfixture-git-ro" />
+
+	<path id="git.classpath">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="test-integration">
+        <ant antfile="${fitnesse-clone-dir}/build.xml" target="all" />
+        <property name="fitnesse.jar" value="true" />
+		<ant antfile="${restfixture-clone-dir}/build.xml" 
+        	inheritall="true"
+        	target="all" />
+	</target>
+
+	<target name="clone-remote">
+        <taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
+
+		<delete dir="${fitnesse-clone-dir}" />
+		<mkdir dir="${fitnesse-clone-dir}" />
+		<git localDirectory="${fitnesse-clone-dir}" verbose="true">
+			<clone uri="git://github.com/unclebob/fitnesse.git" />
+		</git>
+
+		<delete dir="${restfixture-clone-dir}" />
+		<mkdir dir="${restfixture-clone-dir}" />
+		<git localDirectory="${restfixture-clone-dir}" verbose="true">
+			<clone uri="git://github.com/smartrics/RestFixture.git" />
+		</git>
+
+	</target>
+
+</project>
