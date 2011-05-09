@@ -23,12 +23,12 @@
 	<target name="test-integration" depends="clone-remotes, build-fitnesse">
 		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
 		      tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
-        <ant antfile="${restfixture-clone-dir}/build.xml"
-             inheritall="false"
-             target="fitnesse-test" />
-        <ant antfile="${restfixture-clone-dir}/build.xml"
-             inheritall="false"
-             target="metrics" />
+		<ant antfile="${restfixture-clone-dir}/build.xml"
+		     inheritall="false"
+		     target="fitnesse-test" />
+		<ant antfile="${restfixture-clone-dir}/build.xml"
+		     inheritall="false"
+		     target="metrics" />
 	</target>
 
 	<target name="build-fitnesse">
@@ -51,13 +51,13 @@
 		<taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
 
 		<echo>Cloning RestFixture</echo>
-        <delete dir="${restfixture-clone-dir}" />
-        <mkdir dir="${restfixture-clone-dir}" />
-        <git localDirectory="${restfixture-clone-dir}" verbose="true">
-            <clone uri="git://github.com/smartrics/RestFixture.git" />
-        </git>
+		<delete dir="${restfixture-clone-dir}" />
+		<mkdir dir="${restfixture-clone-dir}" />
+		<git localDirectory="${restfixture-clone-dir}" verbose="true">
+			<clone uri="git://github.com/smartrics/RestFixture.git" />
+		</git>
 
-        <echo>Cloning FitNesse</echo>
+		<echo>Cloning FitNesse</echo>
 		<delete dir="${fitnesse-clone-dir}" />
 		<mkdir dir="${fitnesse-clone-dir}" />
 		<git localDirectory="${fitnesse-clone-dir}" verbose="true">
