@@ -1,0 +1,63 @@
+<project name="RestFixture-CI" default="test-integration">
+
+	<property name="fitnesse-clone-dir" value="build/fitnesse-git-ro" />
+	<property name="restfixture-clone-dir" value="build/restfixture-git-ro" />
+
+	<path id="git.classpath">
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="test-integration-would-be-neater">
+		<ant antfile="${fitnesse-clone-dir}/build.xml"
+		     target="jar"
+		     inheritall="false" />
+		<property name="fitnesse.jar"
+		          value="${fitnesse-clone-dir}/dist/fitnesse.jar" />
+		<ant antfile="${restfixture-clone-dir}/build.xml"
+		     inheritall="true"
+		     target="fitnesse-test" />
+	</target>
+
+	<target name="test-integration" depends="build-fitnesse">
+		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
+		      tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
+		<ant antfile="${restfixture-clone-dir}/build.xml"
+		     inheritall="false"
+		     target="fitnesse-test" />
+	</target>
+
+	<target name="build-fitnesse">
+		<!-- 
+		all of this because fitnesse build jar target can't be called via <ant> because
+		the working directory of the java task in createUpdateLists can't be set.
+		fitnesse/build/xml expects to be invoked from within the fitnesse directory.
+		-->
+		<java fork="true"
+		      classpathref="git.classpath"
+		      dir="${fitnesse-clone-dir}"
+		      classname="org.apache.tools.ant.launch.Launcher">
+			<jvmarg value="-Dant.home=${basedir}/lib/ant" />
+			<arg value="jar" />
+		</java>
+	</target>
+
+	<target name="clone-remote">
+		<taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
+
+		<delete dir="${fitnesse-clone-dir}" />
+		<mkdir dir="${fitnesse-clone-dir}" />
+		<git localDirectory="${fitnesse-clone-dir}" verbose="true">
+			<clone uri="git://github.com/unclebob/fitnesse.git" />
+		</git>
+
+		<delete dir="${restfixture-clone-dir}" />
+		<mkdir dir="${restfixture-clone-dir}" />
+		<git localDirectory="${restfixture-clone-dir}" verbose="true">
+			<clone uri="git://github.com/smartrics/RestFixture.git" />
+		</git>
+
+	</target>
+
+</project>
