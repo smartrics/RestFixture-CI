@@ -26,9 +26,9 @@
 		<ant antfile="${restfixture-clone-dir}/build.xml"
 		     inheritall="false"
 		     target="fitnesse-test" />
-		<ant antfile="${restfixture-clone-dir}/build.xml"
+		<!--ant antfile="${restfixture-clone-dir}/build.xml"
 		     inheritall="false"
-		     target="metrics" />
+		     target="metrics" /-->
 	</target>
 
 	<target name="build-fitnesse">
