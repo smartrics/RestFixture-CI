@@ -20,7 +20,7 @@
 		     target="fitnesse-test" />
 	</target>
 
-	<target name="test-integration" depends="build-fitnesse">
+	<target name="test-integration" depends="clone-remotes, build-fitnesse">
 		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
 		      tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
 		<ant antfile="${restfixture-clone-dir}/build.xml"
@@ -43,7 +43,7 @@
 		</java>
 	</target>
 
-	<target name="clone-remote">
+	<target name="clone-remotes">
 		<taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
 
 		<delete dir="${fitnesse-clone-dir}" />
