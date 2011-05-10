@@ -9,15 +9,15 @@
 		</fileset>
 	</path>
 
-	<target name="test-integration-would-be-neater">
+	<target name="test-integration-would-be-nice-if-it-worked" depends="clone-remotes">
 		<ant antfile="${fitnesse-clone-dir}/build.xml"
 		     target="jar"
 		     inheritall="false" />
-		<property name="fitnesse.jar"
-		          value="${fitnesse-clone-dir}/dist/fitnesse.jar" />
-		<ant antfile="${restfixture-clone-dir}/build.xml"
-		     inheritall="true"
-		     target="fitnesse-test" />
+        <copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
+              tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
+        <ant antfile="${restfixture-clone-dir}/build.xml"
+             inheritall="false"
+             target="fitnesse-test" />
 	</target>
 
 	<target name="test-integration" depends="clone-remotes, build-fitnesse">
@@ -26,9 +26,9 @@
 		<ant antfile="${restfixture-clone-dir}/build.xml"
 		     inheritall="false"
 		     target="fitnesse-test" />
-		<!--ant antfile="${restfixture-clone-dir}/build.xml"
+		<ant antfile="${restfixture-clone-dir}/build.xml"
 		     inheritall="false"
-		     target="metrics" /-->
+		     target="metrics"  />
 	</target>
 
 	<target name="build-fitnesse">
