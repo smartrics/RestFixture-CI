@@ -9,17 +9,6 @@
 		</fileset>
 	</path>
 
-	<target name="test-integration-would-be-nice-if-it-worked" depends="clone-remotes">
-		<ant antfile="${fitnesse-clone-dir}/build.xml"
-		     target="jar"
-		     inheritall="false" />
-        <copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
-              tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
-        <ant antfile="${restfixture-clone-dir}/build.xml"
-             inheritall="false"
-             target="fitnesse-test" />
-	</target>
-
 	<target name="test-integration" depends="clone-remotes, build-fitnesse">
 		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
 		      tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
@@ -35,7 +24,9 @@
 		<!-- 
 		all of this because fitnesse build jar target can't be called via <ant> because
 		the working directory of the java task in createUpdateLists can't be set.
-		fitnesse/build/xml expects to be invoked from within the fitnesse directory.
+		fitnesse/build.xml expects to be invoked from within the fitnesse directory.
+		
+		Note: this task requires tools.jar to be avaialble in the classpath for <javac> to work
 		-->
 		<java fork="true"
 		      classpathref="git.classpath"
