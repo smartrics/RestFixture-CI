@@ -9,18 +9,24 @@
 		</fileset>
 	</path>
 
-	<target name="test-integration" depends="clone-remotes, build-fitnesse">
-		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
-		      tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
-		<ant antfile="${restfixture-clone-dir}/build.xml"
-		     inheritall="false"
-		     target="full" >
+    <taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
+
+	<target name="clone-remotes" depends="clone-remote-fitnesse, clone-remote-restfixture"/>
+
+	<target name="test-integration" depends="build-fitnesse, build-restfixture" />
+    
+    <target name="build-restfixture" depends="clone-remote-restfixture">
+    	<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
+              tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
+        <ant antfile="${restfixture-clone-dir}/build.xml"
+             inheritall="false"
+             target="full" >
             <!-- property name="skip.metric.jdepend" value="true" / -->
             <property name="findbugs.home" value="${basedir}/lib/findbugs" />
-		</ant>
-	</target>
+        </ant>
+    </target>
 
-	<target name="build-fitnesse">
+	<target name="build-fitnesse" depends="clone-remote-fitnesse">
 		<!-- 
 		all of this because fitnesse build jar target can't be called via <ant> because
 		the working directory of the java task in createUpdateLists can't be set.
@@ -37,24 +43,24 @@
 		</java>
 	</target>
 
-	<target name="clone-remotes">
+	<target name="clone-remote-restfixture">
+        <echo>Cloning RestFixture</echo>
+        <delete dir="${restfixture-clone-dir}" />
+        <mkdir dir="${restfixture-clone-dir}" />
+        <git localDirectory="${restfixture-clone-dir}" verbose="true">
+            <clone uri="git://github.com/smartrics/RestFixture.git" />
+        </git>
+    </target>
 
-		<taskdef resource="jgit-ant.properties" classpathref="git.classpath" />
+	<target name="clone-remote-fitnesse">
+        <echo>Cloning FitNesse</echo>
+        <delete dir="${fitnesse-clone-dir}" />
+        <mkdir dir="${fitnesse-clone-dir}" />
+        <git localDirectory="${fitnesse-clone-dir}" verbose="true">
+            <clone uri="git://github.com/unclebob/fitnesse.git" />
+        </git>
+    </target>
 
-		<echo>Cloning RestFixture</echo>
-		<delete dir="${restfixture-clone-dir}" />
-		<mkdir dir="${restfixture-clone-dir}" />
-		<git localDirectory="${restfixture-clone-dir}" verbose="true">
-			<clone uri="git://github.com/smartrics/RestFixture.git" />
-		</git>
-
-		<echo>Cloning FitNesse</echo>
-		<delete dir="${fitnesse-clone-dir}" />
-		<mkdir dir="${fitnesse-clone-dir}" />
-		<git localDirectory="${fitnesse-clone-dir}" verbose="true">
-			<clone uri="git://github.com/unclebob/fitnesse.git" />
-		</git>
-
-	</target>
-
+	
+	
 </project>
