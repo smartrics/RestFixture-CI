@@ -15,7 +15,7 @@
 		<ant antfile="${restfixture-clone-dir}/build.xml"
 		     inheritall="false"
 		     target="full" >
-            <property name="skip.metric.jdepend" value="true" />
+            <!-- property name="skip.metric.jdepend" value="true" / -->
             <property name="findbugs.home" value="${basedir}/lib/findbugs" />
 		</ant>
 	</target>
