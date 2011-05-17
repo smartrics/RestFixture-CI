@@ -18,7 +18,7 @@
     <target name="do-restfixture" depends="pull-remote-restfixture, clone-remote-restfixture, build-restfixture" />
     <target name="do-fitnesse" depends="pull-remote-fitnesse, clone-remote-fitnesse, build-fitnesse" />
 
-	<target name="build-restfixture">
+	<target name="build-restfixture" if="is-restfixture-not-uptodate">
 		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
               tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
 		<ant antfile="${restfixture-clone-dir}/build.xml"
@@ -29,7 +29,7 @@
 		</ant>
 	</target>
 	
-	<target name="build-fitnesse">
+	<target name="build-fitnesse" if="is-fitnesse-not-uptodate">
 		<!-- 
 		all of this because fitnesse build jar target can't be called via <ant> because
 		the working directory of the java task in createUpdateLists can't be set.
