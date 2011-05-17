@@ -28,7 +28,7 @@
 			<property name="findbugs.home" value="${basedir}/lib/findbugs" />
 		</ant>
 	</target>
-
+	
 	<target name="build-fitnesse" if="is-fitnesse-not-uptodate">
 		<!-- 
 		all of this because fitnesse build jar target can't be called via <ant> because
@@ -67,7 +67,7 @@
 		</git>
 	</target>
 
-	<target name="clone-remote-fitnesse" depends="pull-remote-fitnesse" if="pull-fitnesse-failed, is-fitnesse-not-uptodate">
+	<target name="clone-remote-fitnesse" depends="pull-remote-fitnesse" if="pull-fitnesse-failed">
 		<echo>Cloning FitNesse</echo>
 		<delete dir="${fitnesse-clone-dir}" />
 		<mkdir dir="${fitnesse-clone-dir}" />
