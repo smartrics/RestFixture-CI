@@ -18,11 +18,12 @@
     <target name="do-restfixture" depends="pull-remote-restfixture, clone-remote-restfixture, build-restfixture" />
     <target name="do-fitnesse" depends="pull-remote-fitnesse, clone-remote-fitnesse, build-fitnesse" />
 
-	<target name="build-restfixture" if="is-restfixture-not-uptodate">
+	<target name="build-restfixture" >
 		<copy file="${fitnesse-clone-dir}/dist/fitnesse.jar"
               tofile="${restfixture-clone-dir}/lib/fitnesse/fitnesse.jar" />
-		<ant antfile="${restfixture-clone-dir}/build.xml"
-             inheritall="false"
+		<ant antfile="build.xml"
+			 dir="${restfixture-clone-dir}"
+             inheritall="false" 
              target="full" >
 			<!-- property name="skip.metric.jdepend" value="true" / -->
 			<property name="findbugs.home" value="${basedir}/lib/findbugs" />
